@@ -1,13 +1,13 @@
 //
-//  ColorSpace.h
+//  FrameColorSpace.h
 //  FoundationSDK
 //
 //  Created by Andreas Schacherbauer on 22/03/16.
 //  Copyright © 2016 Wikitude. All rights reserved.
 //
 
-#ifndef ColorSpace_h
-#define ColorSpace_h
+#ifndef FrameColorSpace_h
+#define FrameColorSpace_h
 
 #ifdef __cplusplus
 
@@ -17,7 +17,7 @@ namespace wikitude { namespace sdk {
     namespace impl {
 
 
-        enum ColorSpace {
+        enum FrameColorSpace {
             /**
              * Represents a color space where image data is given in a YUV 420 format, arranged to be compliant to the NV21 standard.
              * The data size is frame width * frame height * 3/2, meaning full luminance resolution and half the size for chroma red * chroma blue
@@ -31,27 +31,9 @@ namespace wikitude { namespace sdk {
              * Represents a color space where image data is given in a YUV 420 format, arranged to be compliant to the YV12 standard.
              * The data size is frame width * frame height * 3/2, meaning full luminance resolution and half the size for chroma red * chroma blue
              *
-             * On Android this is represented by the ImageFormat.YV12 constants.
+             * On Android this is represented by the ImageFormat.YUV_420_888 and ImageFormat.YV12 constants.
              */
             YUV_420_YV12,
-
-            /**
-             * Represents a color space where image data is given in a YUV 420 format, arranged in three planes.
-             * The data data may contain a row stride for the luminance plane and pixel and row strides for the chroma planes.
-             * The size of usable data is frame width * frame height * 3/2, meaning full luminance resolution and half the size for chroma red * chroma blue.
-             *
-             * On Android this is represented by the ImageFormat.YUV_420_888 constant.
-             */
-            YUV_420_888,
-
-            /**
-            * Represents a color space where image data is given in a YUV 420 format, arranged to be compliant to the NV12 standard.
-            * The data size is frame width * frame height * 3/2, meaning full luminance resolution and half the size for chroma red * chroma blue
-            * Chroma planes are interleaved.
-            *
-            * On Windows, this is represented by the BitmapPixelFormat::Nv12 constant.
-            */
-            YUV_420_NV12,
 
             /**
              * Represents a color space where image data is given in a RGB format.
@@ -74,17 +56,14 @@ namespace wikitude { namespace sdk {
              *
              * On iOS, when using Input Plugins and rendering with Metal, it is recommended to use this Color Space, instead of RGB.
              */
-            RGBA,
+            RGBA
+            
 
-            /**
-            * Represents colorspace unknown by te SDK.
-            */
-            UNKNOWN
         };
     }
-    using impl::ColorSpace;
+    using impl::FrameColorSpace;
 }}
 
 #endif /* __cplusplus */
 
-#endif /* ColorSpace_h */
+#endif /* FrameColorSpace_h */

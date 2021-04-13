@@ -89,7 +89,7 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView> implemen
             if(wikitude != null){
                 Log.d(TAG,"onResume Wikitude");
                 wikitude.onResume();
-                wikitude.loadWorld();
+                // wikitude.loadWorld();
                 firstTime = false;
             }
         }

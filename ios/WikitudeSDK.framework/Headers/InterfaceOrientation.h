@@ -20,8 +20,7 @@ namespace wikitude { namespace sdk {
             InterfaceOrientationLandscapeLeft = 90,
             InterfaceOrientationLandscapeRight = -90,
             InterfaceOrientationPortrait = 0,
-            InterfaceOrientationPortraitUpsideDown = 180,
-            InterfaceOrientationUnknown
+            InterfaceOrientationPortraitUpsideDown = 180
         };
     }
     using impl::InterfaceOrientation;

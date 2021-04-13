@@ -1,4 +1,4 @@
-import { NativeModules ,requireNativeComponent ,findNodeHandle,UIManager,PermissionsAndroid,Button, Platform,} from 'react-native';
+import { NativeModules ,requireNativeComponent ,findNodeHandle,UIManager,PermissionsAndroid,Button, Platform, AppState} from 'react-native';
 import React from 'react';
 const { WikitudeSdk } = NativeModules;
 import PropTypes from 'prop-types';
@@ -13,6 +13,8 @@ class WikitudeView extends React.Component {
     }
 
     async componentDidMount(){
+      AppState.addEventListener('change', this.handleAppStateChange);
+
       if(Platform.OS === 'android'){
         try {
           const granted = await PermissionsAndroid.request(
@@ -20,7 +22,7 @@ class WikitudeView extends React.Component {
             {
               title: "Wikitude Needs the Camera",
               message:
-                "Wikitude needs the camaera to show cool AR",
+                "Wikitude needs the camera to show cool AR",
               buttonNeutral: "Ask Me Later",
               buttonNegative: "Cancel",
               buttonPositive: "OK"
@@ -52,6 +54,7 @@ class WikitudeView extends React.Component {
     }
     */
     componentWillUnmount(){
+      AppState.removeEventListener('change', this.handleAppStateChange);
       console.log("componentWillUnmount")
       this.stopRendering();
       /*if(this.props.isPOI && Platform.OS !== 'android'){
@@ -75,6 +78,19 @@ class WikitudeView extends React.Component {
     }
     */
     
+    handleAppStateChange = nextAppState => {
+      console.log('app state change?', nextAppState);
+      // if (nextAppState === 'active') {
+      //   console.log('-------------------STARTING RENDER');
+      //   this.resumeRendering();
+      // }
+  
+      // if (nextAppState !== 'active') {
+      //   console.log('-------------------STOPPING RENDER');
+      //   this.stopRendering();
+      // }
+    };
+    
     
     requestPermission = function(){
       if(Platform.OS === 'android'){
@@ -84,7 +100,7 @@ class WikitudeView extends React.Component {
             {
               title: "Wikitude Needs the Camera",
               message:
-                "Wikitude needs the camaera to show cool AR",
+                "Wikitude needs the camera to show cool AR",
               buttonNeutral: "Ask Me Later",
               buttonNegative: "Cancel",
               buttonPositive: "OK"
@@ -196,23 +212,40 @@ class WikitudeView extends React.Component {
         }
     }
     resumeRendering = function(){
-      console.log('Calling resumeRendering');
-      if(Platform.OS === "android"){
-        if(this.state.hasCameraPermissions){
+      try {
+        console.log('Calling resumeRendering');
+
+        if(Platform.OS === "android"){
+          // <JM> This shouldn't be done for iOS as it causes a crash
+          try {
+            this.stopRendering();
+          } catch (e) {
+            console.log('FAILED TO STOP RENDERING', e);
+          }
+          // </JM>
+
+          if(this.state.hasCameraPermissions){
+            // <JM /> Wrapped this in a timeout
+              setTimeout(() => {
+                UIManager.dispatchViewManagerCommand(
+                  findNodeHandle(this.refs.wikitudeView),
+                  UIManager.RNWikitude.Commands.resumeARMode,
+                  []
+                );  
+              }, 1000);
+          }
+        }else{
+          
           UIManager.dispatchViewManagerCommand(
-            findNodeHandle(this.refs.wikitudeView),
-            UIManager.RNWikitude.Commands.resumeARMode,
+            findNodeHandle(this.wikitudeRef),
+            UIManager.getViewManagerConfig('RNWikitude').Commands.resumeAR,
             []
           );
+        
         }
-      }else{
         
-        UIManager.dispatchViewManagerCommand(
-          findNodeHandle(this.wikitudeRef),
-          UIManager.getViewManagerConfig('RNWikitude').Commands.resumeAR,
-          []
-        );
-        
+      } catch (e) {
+        console.log('ERROR!', e);
       }
     }
     onJsonReceived = (event) => {

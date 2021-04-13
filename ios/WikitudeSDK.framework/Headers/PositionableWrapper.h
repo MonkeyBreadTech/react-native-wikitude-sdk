@@ -1,20 +1,20 @@
 //
-//  Positionable.hpp
+//  PositionableWrapper.h
 //  SDKCore
 //
 //  Created by Daniel Guttenberg on 24/09/15.
 //  Copyright (c) 2015 Wikitude. All rights reserved.
 //
 
-#ifndef __PositionableWrapper__
-#define __PositionableWrapper__
+#ifndef __SDKCore__PositionableWrapper__
+#define __SDKCore__PositionableWrapper__
 
 #ifdef __cplusplus
 
 #include <functional>
 
 
-namespace wikitude { namespace sdk {
+namespace wikitude { namespace sdk_core {
 
     namespace impl {
 
@@ -42,18 +42,18 @@ namespace wikitude { namespace sdk {
         };
 
         /**
-         * This wrapper class simply forwards calls to the contained implementation according to the pimpl-idiom. This is requires as the interals of the PositionableInternal class are not to be exposed publicly.
+         * This wrapper class simply forwards calls to the contained implementation according to the piml-idiom. This is requires as the interals of the Positionable class are not to be exposed publicly.
          */
-        class Positionable {
+        class PositionableWrapper {
         public:
 
             /**
              * Ctor
              *
-             * @param positionableFunctionCollection_ A pointer to a PositionableInternal object. Ownership of the memory remains with the caller.
+             * @param positionableFunctionCollection_ A pointer to a Positionable object. Ownership of the memory remains with the caller.
              *
              */
-            Positionable(const PositionableFunctionCollection& positionableFunctionCollection_);
+            PositionableWrapper(const PositionableFunctionCollection& positionableFunctionCollection_);
 
             /**
              * Sets the X-coordinate of the 2D screen position.
@@ -114,14 +114,13 @@ namespace wikitude { namespace sdk {
              */
             void exitedFieldOfVision();
 
+
         private:
             PositionableFunctionCollection _positionableFunctionCollection;
         };
     }
-    using impl::PositionableFunctionCollection;
-    using impl::Positionable;
+    using impl::PositionableWrapper;
 }}
 
 #endif /* __cplusplus */
-
-#endif /* defined(__PositionableWrapper__) */
+#endif /* defined(__SDKCore__PositionableWrapper__) */

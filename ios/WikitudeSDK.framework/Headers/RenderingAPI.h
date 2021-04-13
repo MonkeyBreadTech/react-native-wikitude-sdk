@@ -1,27 +1,25 @@
 //
-//  RenderingAPI.hpp
+//  RenderingAPI.h
+//  FoundationSDK
 //
 //  Created by Alexandru Florea on 28/02/17.
 //  Copyright © 2017 Wikitude. All rights reserved.
 //
 
-#ifndef RenderingAPI_hpp
-#define RenderingAPI_hpp
+#ifndef RenderingAPI_h
+#define RenderingAPI_h
 
 #ifdef __cplusplus
-
 
 namespace wikitude { namespace sdk {
     
     namespace impl {
         
-        enum class RenderingAPI {
+        enum RenderingAPI {
             OpenGL_ES_2,
             OpenGL_ES_3,
             Metal,
-            DirectX,
-            None,
-            RenderingAPIs
+            None
         };    
     }
     using impl::RenderingAPI;
@@ -29,4 +27,4 @@ namespace wikitude { namespace sdk {
 
 #endif /* __cplusplus */
 
-#endif /* RenderingAPI_hpp */
+#endif /* RenderingAPI_h */
