@@ -10,6 +10,9 @@
 #define WikitudeSDK_WTWikitudeTypes_h
 
 
+#define WT_DEPRECATED_SINCE(__version__, __msg__) __attribute__((deprecated("Deprecated in Wikitude SDK " #__version__ ". " __msg__)))
+
+
 /**
  *
  * WTFeatures define which features of the Wikitude SDK are used in an ARchitect World. Based on features, different device capabilities are required.
@@ -35,6 +38,12 @@ typedef NS_OPTIONS(NSUInteger, WTFeatures) {
      * This feature requires access to the camera.
      */
     WTFeature_ObjectTracking = 1 << 3,
+
+    /** Deprecated, please use WTFeature_ImageTracking instead. */
+    WTFeature_2DTracking WT_DEPRECATED_SINCE(6.0.0, "Use WTFeature_ImageTracking instead.") = WTFeature_ImageTracking,
+
+    /** Deprecated, please use WTFeature_ObjectTracking instead. */
+    WTFeature_3DTracking WT_DEPRECATED_SINCE(7.0.0, "Use WTFeature_ObjectTracking instead.") = WTFeature_ObjectTracking,
 
     /**
      * Specifies that geo based augmented reality is used where objects are placed on certain locations by providing latitude/longitude values.
@@ -147,20 +156,31 @@ typedef NS_ENUM(NSUInteger, WTRestrictedAppleiOSSDKAPI) {
     WTRestrictedAppleiOSSDKAPI_PhotoLibrary
 };
 
+
 /**
  *
- * WTTrackerEfficiencyMode defines the efficiency mode in which a tracker can run
+ * The WTRenderingAPI can be used choose which OpenGL version should be used by the SDK for rendering
+ *
  */
-typedef NS_ENUM(NSUInteger, WTTrackerEfficiencyMode) {
-    /**
-     * The best result is calculated in the shortest amount of time for every frame which results in higher CPU usage
-     */
-    WTTrackerEfficiencyMode_HighAccuracy,
+WT_DEPRECATED_SINCE(7.0.0, "Use WTRenderingConfiguration instead.")
+typedef NSString * WTRenderingAPI NS_EXTENSIBLE_STRING_ENUM;
 
-    /**
-     * Less energy is needed because the calculations are not as accurate as with the HighAccuracy setting and not every frame is considered
-     */
-    WTTrackerEfficiencyMode_EnergyEfficiency
-};
+/**
+ * Specifies that an OpenGL ES 2 context should be used by the SDK for rendering
+ */
+WT_DEPRECATED_SINCE(7.0.0, "Use WTOpenGLESRenderingConfiguration instead.")
+FOUNDATION_EXPORT WTRenderingAPI const WTRenderingAPI_OpenGL_ES_2;
+
+/**
+ * Specifies that an OpenGL ES 3 context should be used by the SDK for rendering
+ */
+WT_DEPRECATED_SINCE(7.0.0, "Use WTOpenGLESRenderingConfiguration instead.")
+FOUNDATION_EXPORT WTRenderingAPI const WTRenderingAPI_OpenGL_ES_3;
+
+/**
+ * Specifies that a Metal device should be used by the SDK for rendering
+ */
+WT_DEPRECATED_SINCE(7.0.0, "Use WTMetalRenderingConfiguration instead.")
+FOUNDATION_EXPORT WTRenderingAPI const WTRenderingAPI_Metal;
 
 #endif
