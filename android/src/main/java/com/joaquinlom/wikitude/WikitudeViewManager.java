@@ -82,7 +82,11 @@ public class WikitudeViewManager extends ViewGroupManager<WikitudeView>
         public void onHostPause() {
           Log.d(TAG, "onPause");
           if (wikitude != null) {
-            wikitude.onPause();
+            try {
+              wikitude.onPause();
+            } catch (Exception e) {
+              Log.d(TAG, "onPause error: " + e.getMessage());
+            }
           }
         }
 
